@@ -51,18 +51,33 @@ def movie_by_genre(genre):
 def movie_by_year(year):
     return movie_handler.movie_by_year(year)
 
-@app.route("/api/update-movie", methods=['POST'])
+@app.route("/api/update-movie", methods=['PUT'])
 def update_movie():
     response = {}
-    name = request.json['name']
-    genre = request.json['genre']
-    year = request.json['year']
-    if movie_handler.upload_movies(name, genre, year):
-        response = {
-            "success": True,
-            "message": "Pelicula modificada exitosamente"
-        }
-        return response
+    data = request.json
+
+    name = data.get('name', None)
+    genre = data.get('genre', None)
+    year = data.get('year', None)
+
+    if name is not None:
+        for movie in movie_handler.movies:
+            if movie.name == name:
+                if genre is not None:
+                    movie.genre = genre
+                if year is not None:
+                    movie.year = year
+                response = {
+                    "success": True,
+                    "message": "Película actualizada exitosamente"
+                }
+                return jsonify(response)
+
+    response = {
+        "success": False,
+        "message": "La película no se encontró o no se proporcionaron datos de actualización"
+    }
+    return jsonify(response)
 
 
 

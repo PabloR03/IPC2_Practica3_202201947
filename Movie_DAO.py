@@ -22,11 +22,12 @@ class Movie_DAO:
     def movie_by_year(self, year):
         return json.dumps([Movie.dump() for Movie in self.movies if Movie.year == year], indent=4)
         
-    def upload_movies(self, name, genre, year):
+    def update_movie(self, name, genre, year):
         for movie in self.movies:
             if movie.name == name:
-                new = Movie(self.movield_counter, name, genre, year)
-                self.movies.append(new)
-                print("New movie added: ", new.dump())
-                self.movield_counter += 1
+                if genre is not None:
+                    movie.genre = genre
+                if year is not None:
+                    movie.year = year
                 return True
+        return False
