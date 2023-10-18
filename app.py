@@ -24,7 +24,7 @@ movie_handler.new_movie("Chuky 9", "Horror", "2020")
 def index():
     return "<h1> Pablo Andres Rodriguez Lima - 202201947 </h1>"
 
-@app.route("/api/add-movie", methods=['POST'])
+@app.route("/api/new-movie", methods=['POST'])
 def add_movie():
     response = {}
     name = request.json['name']
@@ -43,7 +43,7 @@ def add_movie():
         }
         return response
 
-@app.route("/api/movies-by-genre/<genre>", methods=['GET'])
+@app.route("/api/all-movies-by-genre/<genre>", methods=['GET'])
 def movie_by_genre(genre):
     return movie_handler.movie_by_genre(genre)
 
@@ -71,6 +71,7 @@ def update_movie():
                     "success": True,
                     "message": "Película actualizada exitosamente"
                 }
+                print("Pelicula actualizada exitosamente")
                 return jsonify(response)
 
     response = {
